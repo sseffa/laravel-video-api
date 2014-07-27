@@ -1,0 +1,23 @@
+{
+    "name": "sseffa/video-api",
+    "description": "",
+    "authors": [
+        {
+            "name": "Sefa Karagöz",
+            "email": "karagozsefa@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-0": {
+            "Sseffa\\VideoApi\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
