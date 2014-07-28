@@ -74,13 +74,13 @@ class YoutubeApi implements VideoApiInterface {
         $data = $this->getData($this->baseVideoUrl);
         $data=$data->data;
 
-        $list[$data->id]['id'] = $data->id;
-        $list[$data->id]['title'] = $data->title;
-        $list[$data->id]['description'] = $data->description;
-        $list[$data->id]['thumbnail'] = $data->thumbnail->sqDefault;
-        $list[$data->id]['duration'] = $data->duration;
-        $list[$data->id]['likeCount'] = isset($data->likeCount) ? $data->likeCount : 0;
-        $list[$data->id]['viewCount'] = isset($data->viewCount) ? $data->viewCount : 0;
+        $list['id'] = $data->id;
+        $list['title'] = $data->title;
+        $list['description'] = $data->description;
+        $list['thumbnail'] = $data->thumbnail->sqDefault;
+        $list['duration'] = $data->duration;
+        $list['likeCount'] = isset($data->likeCount) ? $data->likeCount : 0;
+        $list['viewCount'] = isset($data->viewCount) ? $data->viewCount : 0;
 
         return $list;
     }

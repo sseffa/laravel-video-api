@@ -10,5 +10,5 @@ abstract class FactoryMethod {
     const YOUTUBE = 'youtube';
     const VIMEO = 'vimeo';
 
-    abstract public function getInstance($type);
+    abstract static public function getInstance($type);
 }

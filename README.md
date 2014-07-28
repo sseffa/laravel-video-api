@@ -40,24 +40,24 @@ And:
 
 Route::get('video/youtube/{id}', function ($id) {
 
-    $videoChannel = VideoApi::getInstance('youtube'); // get instance
-    $videoChannel->setId($id); // set id
+    $videoApi = VideoApi::getInstance('youtube'); // get instance
+    $videoApi->setId($id); // set id
 
-    //$videoList = $videoChannel->getVideoList(); // list
-    $videoList = $videoChannel->getVideoDetail(); // detail
+    //$data = $videoApi->getVideoList(); // list
+    $data = $videoApi->getVideoDetail(); // detail
 
-    var_dump($videoList);
+    var_dump($data);
 });
 
 Route::get('video/vimeo/{id}', function ($id) {
 
-    $videoChannel = VideoApi::getInstance('vimeo'); // get instance
-    $videoChannel->setId($id);
+    $videoApi = VideoApi::getInstance('vimeo'); // get instance
+    $videoApi->setId($id);
 
-    //$videoList = $videoChannel->getVideoDetail();
-    $videoList = $videoChannel->getVideoList();
+    //$data = $videoApi->getVideoDetail();
+    $data = $videoApi->getVideoList();
 
-    var_dump($videoList);
+    var_dump($data);
 });
 
 ```
