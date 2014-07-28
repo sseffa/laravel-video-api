@@ -47,7 +47,7 @@ class VimeoApi implements VideoApiInterface {
 
         $url = str_replace('{id}', $this->id, $url);
 
-        $json = @file_get_contents($url)
+        $json = @file_get_contents($url);
 
         if(!$json)
             throw new \Exception("Video or channel id is not found");

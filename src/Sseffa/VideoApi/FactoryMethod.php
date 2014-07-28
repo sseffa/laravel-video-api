@@ -7,8 +7,8 @@
  */
 abstract class FactoryMethod {
 
-    const YOUTUBE = 1;
-    const VIMEO = 2;
+    const YOUTUBE = 'youtube';
+    const VIMEO = 'vimeo';
 
     abstract public function getInstance($type);
 }
