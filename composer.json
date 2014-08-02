@@ -1,10 +1,14 @@
 {
     "name": "sseffa/video-api",
-    "description": "",
+    "description": "Laravel Video Data (youtube/vimeo) API",
+    "keywords": [
+        "laravel"
+    ],
     "authors": [
         {
             "name": "Sefa Karagöz",
-            "email": "karagozsefa@gmail.com"
+            "email": "karagozsefa@gmail.com",
+            "homepage": "http://sefakaragoz.com/"
         }
     ],
     "require": {
