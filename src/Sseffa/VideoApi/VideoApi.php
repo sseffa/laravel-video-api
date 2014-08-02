@@ -19,7 +19,6 @@ class VideoApi {
     public static function getInstance($type) {
 
         switch ($type) {
-
             case self::YOUTUBE:
                 return YoutubeApi::getInstance();
                 break;
