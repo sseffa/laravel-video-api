@@ -1,13 +1,14 @@
 <?php namespace Sseffa\VideoApi;
 
-use Sseffa\VideoApi\FactoryMethod;
-
 /**
  * Class VideoApi
  * @package Sseffa\VideoApi
  * @author Sefa Karagöz
  */
-class VideoApi extends FactoryMethod {
+class VideoApi {
+
+    const YOUTUBE = 'youtube';
+    const VIMEO = 'vimeo';
 
     /**
      * Get video api class instance
@@ -15,15 +16,15 @@ class VideoApi extends FactoryMethod {
      * @return VimeoApi|YoutubeApi
      * @throws \InvalidArgumentException
      */
-    public function getInstance($type) {
+    public static function getInstance($type) {
 
         switch ($type) {
 
-            case parent::YOUTUBE:
+            case self::YOUTUBE:
                 return YoutubeApi::getInstance();
                 break;
 
-            case parent::VIMEO:
+            case self::VIMEO:
                 return VimeoApi::getInstance();
                 break;
 
