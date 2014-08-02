@@ -15,7 +15,7 @@ class VideoApi extends FactoryMethod {
      * @return VimeoApi|YoutubeApi
      * @throws \InvalidArgumentException
      */
-    public static function getInstance($type) {
+    public function getInstance($type) {
 
         switch ($type) {
 

@@ -1,7 +1,5 @@
 <?php namespace Sseffa\VideoApi;
 
-use Whoops\Example\Exception;
-
 /**
  * Class VimeoApi
  * @package Sseffa\VideoApi
@@ -30,7 +28,7 @@ class VimeoApi implements VideoApiInterface {
 
         static $instance;
 
-        if (null === $instance) {
+        if ($instance === null) {
             $instance = new self();
         }
 
@@ -45,11 +43,9 @@ class VimeoApi implements VideoApiInterface {
      */
     public function getData($url) {
 
-        $url = str_replace('{id}', $this->id, $url);
+        $json = @file_get_contents(str_replace('{id}', $this->id, $url));
 
-        $json = @file_get_contents($url);
-
-        if(!$json)
+        if (!$json)
             throw new \Exception("Video or channel id is not found");
 
         return $this->parseData($json);
@@ -62,8 +58,7 @@ class VimeoApi implements VideoApiInterface {
      */
     public function parseData($json) {
 
-        $object = json_decode($json);
-        return $object;
+        return json_decode($json);
     }
 
     /**
@@ -72,19 +67,21 @@ class VimeoApi implements VideoApiInterface {
      */
     public function getVideoDetail() {
 
-        $list = array();
         $data = $this->getData($this->baseVideoUrl);
-        $data=$data[0];
+        $data = $data[0];
 
-        $list['id'] = $data->id;
-        $list['title'] = $data->title;
-        $list['description'] = $data->description;
-        $list['thumbnail'] = $data->thumbnail_small;
-        $list['duration'] = $data->duration;
-        $list['likeCount'] = isset($data->stats_number_of_likes) ? $data->stats_number_of_likes : 0;
-        $list['viewCount'] = isset($data->stats_number_of_plays) ? $data->stats_number_of_plays : 0;
-
-        return $list;
+        return array(
+            'id'               => $data->id,
+            'title'            => $data->title,
+            'description'      => $data->description,
+            'thumbnail_small'  => $data->thumbnail_small,
+            'thumbnail_large'  => $data->thumbnail_large,
+            'duration'         => $data->duration,
+            'upload_date'      => $data->upload_date,
+            'likeCount'        => isset($data->stats_number_of_likes) ? $data->stats_number_of_likes : 0,
+            'viewCount'        => isset($data->stats_number_of_plays) ? $data->stats_number_of_plays : 0,
+            'commentCount'     => isset($data->stats_number_of_comments) ? $data->stats_number_of_comments : 0
+        );
     }
 
     /**
@@ -97,14 +94,15 @@ class VimeoApi implements VideoApiInterface {
         $data = $this->getData($this->baseChannelUrl);
 
         foreach ($data as $value) {
-
-            $list[$value->id]['id'] = $value->id;
-            $list[$value->id]['title'] = $value->title;
-            $list[$value->id]['description'] = $value->description;
-            $list[$value->id]['thumbnail'] = $value->thumbnail_small;
-            $list[$value->id]['duration'] = $value->duration;
-            $list[$value->id]['likeCount'] = isset($value->stats_number_of_likes) ? $value->stats_number_of_likes : 0;
-            $list[$value->id]['viewCount'] = isset($value->stats_number_of_plays) ? $value->stats_number_of_plays : 0;
+            $list[$value->id] = array(
+                'id'          => $value->id,
+                'title'       => $value->title,
+                'description' => $value->description,
+                'thumbnail'   => $value->thumbnail->sqDefault,
+                'duration'    => $value->duration,
+                'likeCount'   => isset($value->stats_number_of_likes) ? $value->stats_number_of_likes : 0,
+                'viewCount'   => isset($value->stats_number_of_plays) ? $value->stats_number_of_plays : 0
+            );
         }
         return $list;
     }

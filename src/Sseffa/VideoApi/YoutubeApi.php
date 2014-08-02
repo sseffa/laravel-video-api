@@ -15,8 +15,8 @@ class YoutubeApi implements VideoApiInterface {
      * Set id
      * @param $value
      */
-    public function setId($value)
-    {
+    public function setId($value) {
+
         $this->id = $value;
     }
 
@@ -24,13 +24,15 @@ class YoutubeApi implements VideoApiInterface {
      * Get instance
      * @return YoutubeApi
      */
-    public static function getInstance()
-    {
+    public static function getInstance() {
+
         static $instance;
-        
-        if ( $instance ) return $instance;
-        
-        return $instance = new self();
+
+        if ($instance === null) {
+            $instance = new self();
+        }
+
+        return $instance;
     }
 
     /**
@@ -39,11 +41,11 @@ class YoutubeApi implements VideoApiInterface {
      * @return mixed
      * @throws \Exception
      */
-    public function getData($url)
-    {
+    public function getData($url) {
+
         $json = @file_get_contents(str_replace('{id}', $this->id, $url));
 
-        if(!$json)
+        if (!$json)
             throw new \Exception("Video or channel id is not found");
 
         return $this->parseData($json);
@@ -54,8 +56,8 @@ class YoutubeApi implements VideoApiInterface {
      * @param $json
      * @return mixed
      */
-    public function parseData($json)
-    {
+    public function parseData($json) {
+
         return json_decode($json);
     }
 
@@ -63,19 +65,22 @@ class YoutubeApi implements VideoApiInterface {
      * Get video detail
      * @return array
      */
-    public function getVideoDetail()
-    {
+    public function getVideoDetail() {
+
         $data = $this->getData($this->baseVideoUrl);
-        $data=$data->data;
-        
+        $data = $data->data;
+
         return array(
-            'id' => $data->id,
-            'title' => $data->title,
-            'description' => $data->description,
-            'thumbnail' => $data->thumbnail->sqDefault,
-            'duration' => $data->duration,
-            'likeCount' => isset($data->likeCount) ? $data->likeCount : 0,
-            'viewCount' => isset($data->viewCount) ? $data->viewCount : 0
+            'id'              => $data->id,
+            'title'           => $data->title,
+            'description'     => $data->description,
+            'thumbnail_small' => $data->thumbnail->sqDefault,
+            'thumbnail_large' => $data->thumbnail->hqDefault,
+            'duration'        => $data->duration,
+            'uploaded'        => $data->uploaded,
+            'likeCount'       => isset($data->likeCount) ? $data->likeCount : 0,
+            'viewCount'       => isset($data->viewCount) ? $data->viewCount : 0,
+            'commentCount'    => isset($data->commentCount) ? $data->commentCount : 0
         );
     }
 
@@ -83,21 +88,20 @@ class YoutubeApi implements VideoApiInterface {
      * Get video channel by id (username)
      * @return array
      */
-    public function getVideoList()
-    {
+    public function getVideoList() {
+
         $list = array();
         $data = $this->getData($this->baseChannelUrl);
 
-        foreach ($data->data->items as $value)
-        {
+        foreach ($data->data->items as $value) {
             $list[$value->id] = array(
-                'id' => $value->id,
-                'title' => $value->title,
+                'id'          => $value->id,
+                'title'       => $value->title,
                 'description' => $value->description,
-                'thumbnail' => $value->thumbnail->sqDefault,
-                'duration' => $value->duration,
-                'likeCount' => isset($value->likeCount) ? $value->likeCount : 0,
-                'viewCount' => isset($value->viewCount) ? $value->viewCount : 0
+                'thumbnail'   => $value->thumbnail->sqDefault,
+                'duration'    => $value->duration,
+                'likeCount'   => isset($value->likeCount) ? $value->likeCount : 0,
+                'viewCount'   => isset($value->viewCount) ? $value->viewCount : 0
             );
         }
         return $list;
