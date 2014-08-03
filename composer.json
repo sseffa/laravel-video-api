@@ -16,9 +16,6 @@
         "illuminate/support": "4.*"
     },
     "autoload": {
-        "classmap": [
-            "src/migrations"
-        ],
         "psr-0": {
             "Sseffa\\VideoApi\\": "src/"
         }

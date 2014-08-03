@@ -23,13 +23,15 @@ interface VideoApiInterface {
 
     /**
      * Get video detail
+     * @param $id
      * @return mixed
      */
-    public function getVideoDetail();
+    public function getVideoDetail($id);
 
     /**
      * Get video list
+     * @param $id
      * @return mixed
      */
-    public function getVideoList();
+    public function getVideoList($id);
 }

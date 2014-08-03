@@ -37,12 +37,6 @@ class VideoApiServiceProvider extends ServiceProvider {
 
             return new VideoApi();
         });
-
-        $this->app->booting(function(){
-
-            $loader = \Illuminate\Foundation\AliasLoader::getInstance();
-            $loader->alias('VideoApi', 'Sseffa\VideoApi\Facades\VideoApi');
-        });
 	}
 
 	/**
@@ -52,7 +46,7 @@ class VideoApiServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array();
+		return array("video-api");
 	}
 
 }

@@ -11,20 +11,19 @@ class VideoApi {
     const VIMEO = 'vimeo';
 
     /**
-     * Get video api class instance
      * @param $type
-     * @return VimeoApi|YoutubeApi
+     * @return mixed
      * @throws \InvalidArgumentException
      */
-    public static function getInstance($type) {
+    public function setType($type) {
 
         switch ($type) {
             case self::YOUTUBE:
-                return YoutubeApi::getInstance();
+                return new YoutubeApi();
                 break;
 
             case self::VIMEO:
-                return VimeoApi::getInstance();
+                return new VimeoApi();
                 break;
 
             default:
