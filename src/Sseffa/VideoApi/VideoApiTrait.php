@@ -44,13 +44,11 @@ trait VideoApiTrait {
 
         if (extension_loaded('curl')) {
 
-            echo "curl" . "<br>";
             $ch = curl_init(str_replace('{id}', $this->id, $url));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $json = curl_exec($ch);
         } else {
 
-            echo "file_get_contents" . "<br>";
             $json = @file_get_contents(str_replace('{id}', $this->id, $url));
         }
 

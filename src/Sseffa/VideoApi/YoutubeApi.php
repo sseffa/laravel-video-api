@@ -25,7 +25,7 @@ class YoutubeApi implements VideoApiInterface {
 
         $data = $this->getData($this->baseVideoUrl);
 
-        if($data->error)
+        if(isset($data->error))
             throw new \Exception("Video not found");
 
         $data = $data->data;
