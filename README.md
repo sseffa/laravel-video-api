@@ -43,7 +43,6 @@ Route::get('video/youtube/{id}', function ($id) {
     //$data = VideoApi::setType('youtube')->getVideoDetail($id); // video detail
     $data = VideoApi::setType('youtube')->getVideoList($id);     // video list
 
-
     var_dump($data);
 });
 

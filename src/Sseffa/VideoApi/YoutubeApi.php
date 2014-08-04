@@ -7,7 +7,7 @@
  */
 class YoutubeApi implements VideoApiInterface {
 
-    use VideoApiBase;
+    use VideoApiTrait;
 
     private $baseChannelUrl = 'http://gdata.youtube.com/feeds/api/videos?q={id}&v=2&alt=jsonc';
     private $baseVideoUrl = 'http://gdata.youtube.com/feeds/api/videos/{id}?v=2&alt=jsonc';
@@ -17,12 +17,17 @@ class YoutubeApi implements VideoApiInterface {
      * Get video detail
      * @param $id
      * @return array|mixed
+     * @throws \Exception
      */
     public function getVideoDetail($id) {
 
         $this->setId($id);
 
         $data = $this->getData($this->baseVideoUrl);
+
+        if($data->error)
+            throw new \Exception("Video not found");
+
         $data = $data->data;
 
         return array(
@@ -43,6 +48,7 @@ class YoutubeApi implements VideoApiInterface {
      * Get video channel by id (username)
      * @param $id
      * @return array|mixed
+     * @throws \Exception
      */
     public function getVideoList($id) {
 
@@ -50,6 +56,9 @@ class YoutubeApi implements VideoApiInterface {
 
         $list = array();
         $data = $this->getData($this->baseChannelUrl);
+
+        if(!isset($data->data->items))
+            throw new \Exception("Video channel not found");
 
         foreach ($data->data->items as $value) {
             $list[$value->id] = array(
