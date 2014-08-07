@@ -1,32 +1,52 @@
-<?php namespace Sseffa\VideoApi;
+<?php namespace Sseffa\VideoApi\Services;
 
 /**
- * Class VimeoApi
+ * Vimeo
+ * 
  * @package Sseffa\VideoApi
- * @author Sefa Karagöz
+ * @author  Sefa Karagöz
  */
-class VimeoApi implements VideoApiInterface {
+class Vimeo implements ServicesInterface {
 
-    use VideoApiTrait;
+    use ServiceTrait;
 
+    /**
+     * Base Channel Url
+     * 
+     * @var String
+     */
     private $baseChannelUrl = 'http://vimeo.com/api/v2/{id}/videos.json';
+
+    /**
+     * Base Video Url
+     * 
+     * @var String
+     */
     private $baseVideoUrl = 'http://vimeo.com/api/v2/video/{id}.json"';
+
+    /**
+     * Id
+     * 
+     * @var String
+     */
     private $id;
 
     /**
-     * Get video detail
-     * @param $id
-     * @return array|mixed
-     * @throws \Exception
+     * Get Video Detail
+     * 
+     * @param   string $id
+     * @return  array|mixed
+     * @throws  \Exception
      */
-    public function getVideoDetail($id) {
-
+    public function getVideoDetail($id) 
+    {
         $this->setId($id);
 
         $data = $this->getData($this->baseVideoUrl);
 
-        if(!$data)
-            throw new \Exception("Video not found");
+        if(!$data) {
+            throw new \Exception("Video not found");            
+        }
 
         $data = $data[0];
 
@@ -45,20 +65,23 @@ class VimeoApi implements VideoApiInterface {
     }
 
     /**
-     * Get video channel by id (username)
-     * @param $id
-     * @return array|mixed
-     * @throws \Exception
+     * Get Video Channel By Id (username)
+     * 
+     * @param   string  $id
+     * @return  array|mixed
+     * @throws  \Exception
      */
-    public function getVideoList($id) {
+    public function getVideoList($id) 
+    {
 
         $this->setId($id);
 
         $list = array();
         $data = $this->getData($this->baseChannelUrl);
 
-        if(!$data)
+        if(!$data) {            
             throw new \Exception("Video channel not found");
+        }
 
         foreach ($data as $value) {
             $list[$value->id] = array(

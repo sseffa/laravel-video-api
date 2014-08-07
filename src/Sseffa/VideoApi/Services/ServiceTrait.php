@@ -1,60 +1,65 @@
-<?php namespace Sseffa\VideoApi;
+<?php namespace Sseffa\VideoApi\Services;
 
 /**
- * Class VideoApiTrait
+ * Class ServiceTrait
+ * 
  * @package Sseffa\VideoApi
- * @author Sefa Karagöz
+ * @author  Sefa Karagöz
  */
-trait VideoApiTrait {
+trait ServiceTrait {
 
     /**
-     * Set id
+     * Set Id
+     *
      * @param $value
      */
-    public function setId($value) {
-
+    public function setId($value) 
+    {
         $this->id = $value;
     }
 
     /**
-     * Json data parser
-     * @param $json
-     * @return mixed
-     * @throws \Exception
+     * Json Data Parser
+     *
+     * @param   string  $json
+     * @return  mixed
+     * @throws  \Exception
      */
-    public function parseData($json) {
-
+    public function parseData($json) 
+    {
         $data = json_decode($json);
 
-        if (json_last_error() === JSON_ERROR_NONE)
+        if (json_last_error() === JSON_ERROR_NONE) {            
             return $data;
+        }
 
         throw new \Exception("Video or channel id is not found. (Invalid json)");
     }
 
     /**
-     * Get video detail
-     * @param $url
-     * @return mixed
-     * @throws \Exception
+     * Get Video Detail
+     *
+     * @param   string  $url
+     * @return  mixed
+     * @throws  \Exception
      */
-    public function getData($url) {
-
+    public function getData($url) 
+    {
         $json = null;
 
         if (extension_loaded('curl')) {
-
             $ch = curl_init(str_replace('{id}', $this->id, $url));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $json = curl_exec($ch);
         } else {
-
             $json = @file_get_contents(str_replace('{id}', $this->id, $url));
         }
 
-        if (!$json)
+        if (!$json) {            
             throw new \Exception("Video or channel id is not found");
+        }
 
         return $this->parseData($json);
     }
+    
 }

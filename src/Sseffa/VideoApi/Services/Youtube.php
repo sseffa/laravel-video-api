@@ -1,32 +1,51 @@
-<?php namespace Sseffa\VideoApi;
+<?php namespace Sseffa\VideoApi\Services;
 
 /**
- * Class YoutubeApi
+ * Youtube
+ *
  * @package Sseffa\VideoApi
- * @author Sefa Karagöz
+ * @author  Sefa Karagöz
  */
-class YoutubeApi implements VideoApiInterface {
+class Youtube implements ServicesInterface {
 
-    use VideoApiTrait;
+    use ServiceTrait;
 
+    /**
+     * Base Channel Url
+     *
+     * @var String 
+     */
     private $baseChannelUrl = 'http://gdata.youtube.com/feeds/api/videos?q={id}&v=2&alt=jsonc';
+
+    /**
+     * Base Video Url
+     *
+     * @var String 
+     */
     private $baseVideoUrl = 'http://gdata.youtube.com/feeds/api/videos/{id}?v=2&alt=jsonc';
+
+    /**
+     * Id
+     *
+     * @var String
+     */
     private $id;
 
     /**
-     * Get video detail
-     * @param $id
-     * @return array|mixed
-     * @throws \Exception
+     * Get Video Detail
+     *
+     * @param  string   $id
+     * @return mixed
      */
-    public function getVideoDetail($id) {
-
+    public function getVideoDetail($id)
+    {
         $this->setId($id);
 
         $data = $this->getData($this->baseVideoUrl);
 
-        if(isset($data->error))
+        if(isset($data->error)) {            
             throw new \Exception("Video not found");
+        }
 
         $data = $data->data;
 
@@ -45,20 +64,21 @@ class YoutubeApi implements VideoApiInterface {
     }
 
     /**
-     * Get video channel by id (username)
-     * @param $id
-     * @return array|mixed
-     * @throws \Exception
+     * Get Video List
+     * 
+     * @param   string  $id
+     * @return  mixed
      */
-    public function getVideoList($id) {
-
+    public function getVideoList($id)
+    {
         $this->setId($id);
 
         $list = array();
         $data = $this->getData($this->baseChannelUrl);
 
-        if(!isset($data->data->items))
-            throw new \Exception("Video channel not found");
+        if(!isset($data->data->items)) {
+            throw new \Exception("Video channel not found");            
+        }
 
         foreach ($data->data->items as $value) {
             $list[$value->id] = array(
@@ -76,4 +96,5 @@ class YoutubeApi implements VideoApiInterface {
         }
         return $list;
     }
+
 }
