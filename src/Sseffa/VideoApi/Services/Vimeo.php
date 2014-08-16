@@ -2,7 +2,7 @@
 
 /**
  * Vimeo
- * 
+ *
  * @package Sseffa\VideoApi
  * @author  Sefa Karagöz
  */
@@ -12,40 +12,40 @@ class Vimeo implements ServicesInterface {
 
     /**
      * Base Channel Url
-     * 
+     *
      * @var String
      */
     private $baseChannelUrl = 'http://vimeo.com/api/v2/{id}/videos.json';
 
     /**
      * Base Video Url
-     * 
+     *
      * @var String
      */
     private $baseVideoUrl = 'http://vimeo.com/api/v2/video/{id}.json"';
 
     /**
      * Id
-     * 
+     *
      * @var String
      */
     private $id;
 
     /**
      * Get Video Detail
-     * 
+     *
      * @param   string $id
      * @return  array|mixed
      * @throws  \Exception
      */
-    public function getVideoDetail($id) 
+    public function getVideoDetail($id)
     {
         $this->setId($id);
 
         $data = $this->getData($this->baseVideoUrl);
 
         if(!$data) {
-            throw new \Exception("Video not found");            
+            throw new \Exception("Video not found");
         }
 
         $data = $data[0];
@@ -60,18 +60,19 @@ class Vimeo implements ServicesInterface {
             'upload_date'     => $data->upload_date,
             'like_count'      => isset($data->stats_number_of_likes) ? $data->stats_number_of_likes : 0,
             'view_count'      => isset($data->stats_number_of_plays) ? $data->stats_number_of_plays : 0,
-            'comment_count'   => isset($data->stats_number_of_comments) ? $data->stats_number_of_comments : 0
+            'comment_count'   => isset($data->stats_number_of_comments) ? $data->stats_number_of_comments : 0,
+            'uploader'        => $data->user_name
         );
     }
 
     /**
      * Get Video Channel By Id (username)
-     * 
+     *
      * @param   string  $id
      * @return  array|mixed
      * @throws  \Exception
      */
-    public function getVideoList($id) 
+    public function getVideoList($id)
     {
 
         $this->setId($id);
@@ -79,7 +80,7 @@ class Vimeo implements ServicesInterface {
         $list = array();
         $data = $this->getData($this->baseChannelUrl);
 
-        if(!$data) {            
+        if(!$data) {
             throw new \Exception("Video channel not found");
         }
 

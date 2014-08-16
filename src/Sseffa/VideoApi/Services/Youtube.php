@@ -13,14 +13,14 @@ class Youtube implements ServicesInterface {
     /**
      * Base Channel Url
      *
-     * @var String 
+     * @var String
      */
     private $baseChannelUrl = 'http://gdata.youtube.com/feeds/api/videos?q={id}&v=2&alt=jsonc';
 
     /**
      * Base Video Url
      *
-     * @var String 
+     * @var String
      */
     private $baseVideoUrl = 'http://gdata.youtube.com/feeds/api/videos/{id}?v=2&alt=jsonc';
 
@@ -43,7 +43,7 @@ class Youtube implements ServicesInterface {
 
         $data = $this->getData($this->baseVideoUrl);
 
-        if(isset($data->error)) {            
+        if(isset($data->error)) {
             throw new \Exception("Video not found");
         }
 
@@ -59,13 +59,14 @@ class Youtube implements ServicesInterface {
             'upload_date'     => $data->uploaded,
             'like_count'      => isset($data->likeCount) ? $data->likeCount : 0,
             'view_count'      => isset($data->viewCount) ? $data->viewCount : 0,
-            'comment_count'   => isset($data->commentCount) ? $data->commentCount : 0
+            'comment_count'   => isset($data->commentCount) ? $data->commentCount : 0,
+            'uploader'        => $data->uploader
         );
     }
 
     /**
      * Get Video List
-     * 
+     *
      * @param   string  $id
      * @return  mixed
      */
@@ -77,7 +78,7 @@ class Youtube implements ServicesInterface {
         $data = $this->getData($this->baseChannelUrl);
 
         if(!isset($data->data->items)) {
-            throw new \Exception("Video channel not found");            
+            throw new \Exception("Video channel not found");
         }
 
         foreach ($data->data->items as $value) {
