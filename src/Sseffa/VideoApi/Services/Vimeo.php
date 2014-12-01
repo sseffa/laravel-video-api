@@ -22,7 +22,7 @@ class Vimeo implements ServicesInterface {
      *
      * @var String
      */
-    private $baseVideoUrl = 'http://vimeo.com/api/v2/video/{id}.json"';
+    private $baseVideoUrl = 'http://vimeo.com/api/v2/video/{id}.json';
 
     /**
      * Id
