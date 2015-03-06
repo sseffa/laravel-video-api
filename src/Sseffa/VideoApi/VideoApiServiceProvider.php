@@ -21,10 +21,7 @@ class VideoApiServiceProvider extends ServiceProvider {
      *
      * @return void
      */
-    public function boot() {
-
-        $this->package('sseffa/video-api');
-    }
+    public function boot() {}
 
     /**
      * Register the service provider.
