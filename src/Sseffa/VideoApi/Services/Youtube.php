@@ -15,14 +15,14 @@ class Youtube implements ServicesInterface {
      *
      * @var String
      */
-    private $baseChannelUrl = 'http://gdata.youtube.com/feeds/api/videos?q={id}&v=2&alt=jsonc';
+    private $baseChannelUrl = 'https://gdata.youtube.com/feeds/api/videos?q={id}&v=2&alt=jsonc';
 
     /**
      * Base Video Url
      *
      * @var String
      */
-    private $baseVideoUrl = 'http://gdata.youtube.com/feeds/api/videos/{id}?v=2&alt=jsonc';
+    private $baseVideoUrl = 'https://gdata.youtube.com/feeds/api/videos/{id}?v=2&alt=jsonc';
 
     /**
      * Id
