@@ -50,6 +50,7 @@ trait ServiceTrait {
         if (extension_loaded('curl')) {
             $ch = curl_init(str_replace('{id}', $this->id, $url));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             $json = curl_exec($ch);
         } else {
             $json = @file_get_contents(str_replace('{id}', $this->id, $url));
