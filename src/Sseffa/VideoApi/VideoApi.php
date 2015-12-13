@@ -6,8 +6,8 @@
  * @package Sseffa\VideoApi
  * @author  Sefa Karagöz
  */
-class VideoApi {
-
+class VideoApi
+{
     /**
      * Youtube
      *
@@ -24,15 +24,15 @@ class VideoApi {
 
     /**
      * Set Type
-     * 
-     * @param   string  $type
+     *
+     * @param   string $type
      * @return  mixed
      * @throws  \InvalidArgumentException
      */
-    public function setType($type) 
+    public function setType($type)
     {
-
-        switch ($type) {
+        switch($type)
+        {
             case self::YOUTUBE:
                 return new Services\Youtube();
                 break;
@@ -45,5 +45,4 @@ class VideoApi {
                 throw new \InvalidArgumentException("$type is not a valid video site");
         }
     }
-    
 }

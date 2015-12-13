@@ -15,14 +15,14 @@ class Vimeo implements ServicesInterface {
      *
      * @var String
      */
-    private $baseChannelUrl = 'https://vimeo.com/api/v2/{id}/videos.json';
+    private $baseChannelUrl = 'http://vimeo.com/api/v2/{id}/videos.json';
 
     /**
      * Base Video Url
      *
      * @var String
      */
-    private $baseVideoUrl = 'https://vimeo.com/api/v2/video/{id}.json';
+    private $baseVideoUrl = 'http://vimeo.com/api/v2/video/{id}.json';
 
     /**
      * Id

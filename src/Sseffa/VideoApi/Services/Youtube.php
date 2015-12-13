@@ -6,96 +6,91 @@
  * @package Sseffa\VideoApi
  * @author  Sefa Karagöz
  */
-class Youtube implements ServicesInterface {
-
+class Youtube implements ServicesInterface
+{
     use ServiceTrait;
-
     /**
      * Base Channel Url
      *
      * @var String
      */
-    private $baseChannelUrl = 'https://gdata.youtube.com/feeds/api/videos?q={id}&v=2&alt=jsonc';
-
+    private $baseChannelUrl = 'https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&playlistId={id}&key={key}';
     /**
      * Base Video Url
      *
      * @var String
      */
-    private $baseVideoUrl = 'https://gdata.youtube.com/feeds/api/videos/{id}?v=2&alt=jsonc';
-
+    private $baseVideoUrl = 'https://www.googleapis.com/youtube/v3/videos?id={id}&key={key}&part=snippet,contentDetails,statistics';
     /**
      * Id
      *
      * @var String
      */
     private $id;
+    protected $key;
+
+    public function setKey($value)
+    {
+        $this->key = $value;
+
+        return $this;
+    }
 
     /**
      * Get Video Detail
-     *
-     * @param  string   $id
-     * @return mixed
+     * @param string $id
+     * @return array
+     * @throws \Exception
      */
     public function getVideoDetail($id)
     {
         $this->setId($id);
 
-        $data = $this->getData($this->baseVideoUrl);
+        $data = $this->getData(str_replace('{key}', $this->key, $this->baseVideoUrl));
 
-        if(isset($data->error)) {
+        if(isset($data->error))
+        {
             throw new \Exception("Video not found");
         }
 
-        $data = $data->data;
-
         return array(
-            'id'              => $data->id,
-            'title'           => $data->title,
-            'description'     => $data->description,
-            'thumbnail_small' => $data->thumbnail->sqDefault,
-            'thumbnail_large' => $data->thumbnail->hqDefault,
-            'duration'        => $data->duration,
-            'upload_date'     => $data->uploaded,
-            'like_count'      => isset($data->likeCount) ? $data->likeCount : 0,
-            'view_count'      => isset($data->viewCount) ? $data->viewCount : 0,
-            'comment_count'   => isset($data->commentCount) ? $data->commentCount : 0,
-            'uploader'        => $data->uploader
+            'id'              => $data->items[0]->id,
+            'title'           => $data->items[0]->snippet->title,
+            'description'     => $data->items[0]->snippet->description,
+            'thumbnail_small' => $data->items[0]->snippet->thumbnails->default->url,
+            'thumbnail_large' => $data->items[0]->snippet->thumbnails->high->url,
+            'duration'        => $data->items[0]->contentDetails->duration,
+            'upload_date'     => $data->items[0]->snippet->publishedAt,
+            'like_count'      => isset($data->items[0]->statistics->likeCount) ? $data->items[0]->statistics->likeCount : 0,
+            'view_count'      => isset($data->items[0]->statistics->viewCount) ? $data->items[0]->statistics->viewCount : 0,
+            'comment_count'   => isset($data->items[0]->statistics->commentCount) ? $data->items[0]->statistics->commentCount : 0,
+            'uploader'        => null
         );
     }
 
     /**
      * Get Video List
-     *
-     * @param   string  $id
-     * @return  mixed
+     * @param string $id
+     * @return array
+     * @throws \Exception
      */
     public function getVideoList($id)
     {
         $this->setId($id);
 
         $list = array();
-        $data = $this->getData($this->baseChannelUrl);
+        $data = $this->getData(str_replace('{key}', $this->key, $this->baseChannelUrl));
 
-        if(!isset($data->data->items)) {
+        if(!isset($data->items))
+        {
             throw new \Exception("Video channel not found");
         }
 
-        foreach ($data->data->items as $value) {
-            $list[$value->id] = array(
-                'id'              => $value->id,
-                'title'           => $value->title,
-                'description'     => $value->description,
-                'thumbnail_small' => $value->thumbnail->sqDefault,
-                'thumbnail_large' => $value->thumbnail->hqDefault,
-                'duration'        => $value->duration,
-                'upload_date'     => $value->uploaded,
-                'like_count'      => isset($value->likeCount) ? $value->likeCount : 0,
-                'view_count'      => isset($value->viewCount) ? $value->viewCount : 0,
-                'comment_count'   => isset($value->commentCount) ? $value->commentCount : 0
-            );
+        foreach($data->items as $value)
+        {
+            $list[] = $this->getVideoDetail($value->contentDetails->videoId);
         }
+
         return $list;
     }
-
 }

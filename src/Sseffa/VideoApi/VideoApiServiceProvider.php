@@ -7,8 +7,8 @@ use Illuminate\Support\ServiceProvider;
  * @package Sseffa\VideoApi
  * @author Sefa Karagöz
  */
-class VideoApiServiceProvider extends ServiceProvider {
-
+class VideoApiServiceProvider extends ServiceProvider
+{
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -21,16 +21,20 @@ class VideoApiServiceProvider extends ServiceProvider {
      *
      * @return void
      */
-    public function boot() {}
+    public function boot()
+    {
+    }
 
     /**
      * Register the service provider.
      *
      * @return void
      */
-    public function register() {
+    public function register()
+    {
 
-        $this->app['video-api'] = $this->app->share(function () {
+        $this->app['video-api'] = $this->app->share(function ()
+        {
 
             return new VideoApi();
         });
@@ -41,7 +45,8 @@ class VideoApiServiceProvider extends ServiceProvider {
      *
      * @return array
      */
-    public function provides() {
+    public function provides()
+    {
 
         return array("video-api");
     }
