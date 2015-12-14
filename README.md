@@ -3,7 +3,6 @@ Laravel Video API
 
 [![Latest Stable Version](https://poser.pugx.org/sseffa/video-api/v/stable.png)](https://packagist.org/packages/sseffa/video-api)
 [![Total Downloads](https://poser.pugx.org/sseffa/video-api/downloads.png)](https://packagist.org/packages/sseffa/video-api)
-[![Coverage Status](https://coveralls.io/repos/sseffa/video-api/badge.png)](https://coveralls.io/r/sseffa/video-api)
 
 
 ## Installation
@@ -39,6 +38,8 @@ And:
 ```
 
 ## Usage
+
+[Youtube API Key](https://console.developers.google.com)
 
 
 ```php
