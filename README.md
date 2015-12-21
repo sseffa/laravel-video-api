@@ -3,7 +3,7 @@ Laravel Video API
 
 [![Latest Stable Version](https://poser.pugx.org/sseffa/video-api/v/stable.png)](https://packagist.org/packages/sseffa/video-api)
 [![Total Downloads](https://poser.pugx.org/sseffa/video-api/downloads.png)](https://packagist.org/packages/sseffa/video-api)
-
+[![Build Status](https://travis-ci.org/sseffa/laravel-video-api.svg)](https://travis-ci.org/sseffa/laravel-video-api)
 
 ## Installation
 
