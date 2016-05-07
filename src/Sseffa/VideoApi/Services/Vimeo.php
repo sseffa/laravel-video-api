@@ -66,6 +66,28 @@ class Vimeo implements ServicesInterface {
     }
 
     /**
+     * Get Video Raw Data
+     *
+     * @param   string $id
+     * @return  array|mixed
+     * @throws  \Exception
+     */
+    public function getVideoRawData($id)
+    {
+        $this->setId($id);
+
+        $data = $this->getData($this->baseVideoUrl);
+
+        if(!$data) {
+            throw new \Exception("Video not found");
+        }
+
+        $data = $data[0];
+
+        return $data;
+    }
+
+    /**
      * Get Video Channel By Id (username)
      *
      * @param   string  $id
@@ -100,4 +122,26 @@ class Vimeo implements ServicesInterface {
         }
         return $list;
     }
+
+    /**
+     * Parse a vimeo URL to get the vimeo video id.
+     * Support vimeo.com url
+     *
+     * @param  string $vimeo_url
+     * @throws \Exception
+     * @return string Video Id
+     */
+    public function parseVIdFromURL($vimeo_url)
+    {
+        if (strpos($vimeo_url, 'vimeo.com')) {
+            $tokens = explode("/", $vimeo_url);
+            if(is_numeric($tokens[3]))
+                return $tokens[3];
+            else
+                throw new \Exception('The supplied URL does not contain a valid Vimeo video id');
+        } else {
+            throw new \Exception('The supplied URL does not look like a Vimeo URL');
+        }
+    }
 }
+
