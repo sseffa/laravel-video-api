@@ -64,7 +64,7 @@ class Youtube implements ServicesInterface
             'like_count'      => isset($data->items[0]->statistics->likeCount) ? $data->items[0]->statistics->likeCount : 0,
             'view_count'      => isset($data->items[0]->statistics->viewCount) ? $data->items[0]->statistics->viewCount : 0,
             'comment_count'   => isset($data->items[0]->statistics->commentCount) ? $data->items[0]->statistics->commentCount : 0,
-            'uploader'        => null
+            'uploader'        => $data->items[0]->snippet->channelTitle
         );
     }
 
