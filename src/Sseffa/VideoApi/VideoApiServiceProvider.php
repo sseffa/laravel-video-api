@@ -33,7 +33,7 @@ class VideoApiServiceProvider extends ServiceProvider
     public function register()
     {
 
-        $this->app['video-api'] = $this->app->share(function ()
+        $this->app->singleton('video-api', function ()
         {
 
             return new VideoApi();
