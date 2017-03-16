@@ -15,8 +15,8 @@ composer require "sseffa/video-api": "dev-master"
 
  Laravel  | video-api
 :---------|:----------
- 4.x.x    | 1.0.x
- 5.x.x    | 2.0.x
+ 4.x.x    | 1.x
+ 5.x.x    | 2.x
 
 
 ### 2. Add to `app/config/app.php`
