@@ -1,5 +1,8 @@
 <?php namespace Sseffa\VideoApi\Services;
 
+use DateTimeImmutable;
+use DateInterval;
+
 /**
  * Youtube
  *
@@ -59,7 +62,7 @@ class Youtube implements ServicesInterface
             'description'     => $data->items[0]->snippet->description,
             'thumbnail_small' => $data->items[0]->snippet->thumbnails->default->url,
             'thumbnail_large' => $data->items[0]->snippet->thumbnails->high->url,
-            'duration'        => $data->items[0]->contentDetails->duration,
+            'duration'        => static::_convert_time($data->items[0]->contentDetails->duration),
             'upload_date'     => $data->items[0]->snippet->publishedAt,
             'like_count'      => isset($data->items[0]->statistics->likeCount) ? $data->items[0]->statistics->likeCount : 0,
             'view_count'      => isset($data->items[0]->statistics->viewCount) ? $data->items[0]->statistics->viewCount : 0,
@@ -179,5 +182,17 @@ class Youtube implements ServicesInterface
 
         return $params;
     }
-}
 
+    /**
+     * Parse the YouTube timestamp to seconds
+     * @param  string $time YouTube format timestamp
+     * @return integer      Seconds
+     */
+    public static function _convert_time($time)
+    {
+        $reference = new DateTimeImmutable;
+        $endTime = $reference->add(new DateInterval($time));
+
+        return $endTime->getTimestamp() - $reference->getTimestamp();
+    }
+}
